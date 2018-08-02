@@ -1,0 +1,13 @@
+C:\Users\Administrator\Desktop\Train_MVCFramework\Train_MVCFramework\bin\Debug\Controllers.dll
+C:\Users\Administrator\Desktop\Train_MVCFramework\Train_MVCFramework\bin\Debug\Controllers.pdb
+C:\Users\Administrator\Desktop\Train_MVCFramework\Controllers\obj\Debug\Controllers.dll
+C:\Users\Administrator\Desktop\Train_MVCFramework\Controllers\obj\Debug\Controllers.pdb
+C:\Users\Administrator\Desktop\Train_MVCFramework\Web\Train_MVCFramework\bin\Debug\Controllers.dll
+C:\Users\Administrator\Desktop\Train_MVCFramework\Web\Train_MVCFramework\bin\Debug\Controllers.pdb
+C:\Users\Administrator\Desktop\Train_MVCFramework\Web\Controllers\obj\Debug\Controllers.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\Train_MVCFramework\Web\Controllers\obj\Debug\Controllers.dll
+C:\Users\Administrator\Desktop\Train_MVCFramework\Web\Controllers\obj\Debug\Controllers.pdb
+C:\Users\Administrator\Desktop\Train_MVCFramework\Web\Controllers\bin\Debug\Controllers.dll
+C:\Users\Administrator\Desktop\Train_MVCFramework\Web\Controllers\bin\Debug\Controllers.pdb
+C:\Users\Administrator\Desktop\Train_MVCFramework\Web\Controllers\bin\Debug\ListenHttp.dll
+C:\Users\Administrator\Desktop\Train_MVCFramework\Web\Controllers\bin\Debug\ListenHttp.pdb
