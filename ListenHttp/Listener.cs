@@ -19,6 +19,10 @@ namespace ListenHttp
 
         private HttpListener sSocket;
 
+        /// <summary>
+        /// 开始监听
+        /// </summary>
+        /// <param name="urls"></param>
         public void StartListen(params string[] urls)
         {
             try
@@ -50,16 +54,33 @@ namespace ListenHttp
         /// <param name="ar"></param>
         private void GetContextCallBack(IAsyncResult ar)
         {
+            sSocket = ar.AsyncState as HttpListener;
+            HttpListenerContext context = sSocket.EndGetContext(ar);
+            sSocket.BeginGetContext(new AsyncCallback(GetContextCallBack), sSocket);
+            CoreProcess(context);
+        }
+
+        /// <summary>
+        /// 处理请求和编写响应
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        private void CoreProcess(HttpListenerContext context)
+        {
             try
             {
-                sSocket = ar.AsyncState as HttpListener;
-                HttpListenerContext context = sSocket.EndGetContext(ar);
-                sSocket.BeginGetContext(new AsyncCallback(GetContextCallBack), sSocket);
-                ProcessingRequest_And_RedactResponse(context);
+                //通过路由解析url
+                UrlResult ur = Route.AnalysisUrl(context.Request.Url.PathAndQuery);
+
+                //通过url交给对应Controller进行处理，返回响应字符串
+                ResultAction ra = ExecuteController.InvokingAction(context, ur);
+
+                //发送响应报文
+                ra.SendResponse();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                WebException.ErrorProcess(ex, context);
             }
         }
 
@@ -73,36 +94,7 @@ namespace ListenHttp
             System.Threading.Thread.Sleep(2000);
         }
 
-        /// <summary>
-        /// 处理请求和编写响应
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        private void ProcessingRequest_And_RedactResponse(HttpListenerContext context)
-        {
-            //通过路由解析url
-            UrlResult ur = Route.AnalysisUrl(context.Request.Url.PathAndQuery);
 
-            //通过url交给对应Controller进行处理，返回响应字符串
-            string responseString = Controller.InvokingAction(context, ur);
-
-            //发送响应报文
-            SendResponse(context, responseString);
-        }
-
-        /// <summary>
-        /// 发送响应字符串
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="responseString"></param>
-        private void SendResponse(HttpListenerContext context, string responseString)
-        {
-            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
-            context.Response.ContentLength64 = buffer.Length;
-            System.IO.Stream output = context.Response.OutputStream;
-            output.Write(buffer, 0, buffer.Length);
-            output.Close();
-        }
 
 
 

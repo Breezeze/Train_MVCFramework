@@ -10,21 +10,21 @@ namespace ListenHttp
     {
         internal UrlResult(string filePath)
         {
-            _parameters.Add("FilePath", filePath);
+            _parameters.Add("FilePath".ToLower(), filePath);
         }
         internal UrlResult(Route route, string controller, string action, string id)
         {
             _route = route;
             _parameters.Add("Controller", controller);
             _parameters.Add("Action", action);
-            _parameters.Add("id", id);
+            _parameters.Add("id", id.Split('?')[0]);
         }
         internal UrlResult(Route route, string[] parametersName, string[] parameters)
         {
             _route = route;
             for (int i = 0; i < parametersName.Length; i++)
             {
-                _parameters.Add(parametersName[i], parameters[i]);
+                _parameters.Add(parametersName[i], parameters[i].Split('?')[0]);
             }
         }
 

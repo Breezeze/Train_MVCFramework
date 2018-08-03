@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace ListenHttp
 {
-    public static class Controller
+    public static class ExecuteController
     {
 
         public static Dictionary<string, Type> _subClassList = new Dictionary<string, Type>();
-        static Controller()
+        static ExecuteController()
         {
             if (System.IO.File.Exists("Controllers.dll"))
             {
@@ -37,9 +37,13 @@ namespace ListenHttp
         /// <param name="context"></param>
         /// <param name="ur"></param>
         /// <returns></returns>
-        public static string InvokingAction(System.Net.HttpListenerContext context, UrlResult ur)
+        public static ResultAction InvokingAction(System.Net.HttpListenerContext context, UrlResult ur)
         {
-            if (ur.Controller != null)
+            if (ur["filepath"] != null)
+            {
+                throw new WebException(403, context, "拒绝文件请求");
+            }
+            else if (ur.Controller != null)
             {
                 if (_subClassList.ContainsKey(ur.Controller))
                 {
@@ -47,14 +51,15 @@ namespace ListenHttp
                     object obj = Activator.CreateInstance(_subClassList[ur.Controller]);
                     foreach (MethodInfo item in actions)
                     {
-                        if (item.Name.Trim().ToLower().Equals(ur.Action.Trim()))
+                        if (item.Name.ToLower().Equals(ur.Action))
                         {
-                            return (string)item.Invoke(obj, new object[] { context });
+                            string responseString = (string)item.Invoke(obj, new object[] { context });
+                            return new ResultAction(context.Response, responseString, 200);
                         }
                     }
                 }
             }
-            return "<html><head><meta charset='utf-8'></head><body>失败！</body></html>";
+            throw new WebException(400, context, "请检测路径的正确性！");
         }
 
     }

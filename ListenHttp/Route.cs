@@ -25,7 +25,6 @@ namespace ListenHttp
                 throw new Exception("路由规则不符合规范 ！");
             }
             AnalysisRule = analysisRule.Split(new char[] { '{', '}', '/' }, StringSplitOptions.RemoveEmptyEntries);
-            DefaultUrl = AnalysisUrl("/" + defaultUrl);
             if (name == "Dafualt")
             {
                 list.Insert(0, this);
@@ -34,6 +33,7 @@ namespace ListenHttp
             {
                 list.Add(this);
             }
+            DefaultUrl = AnalysisUrl(defaultUrl);
         }
 
         //路由表
@@ -76,7 +76,7 @@ namespace ListenHttp
                     return ur;
                 }
             }
-            return null;
+            throw new Exception("请检测路径是否正确！", new WebException(400));
         }
 
         /// <summary>
@@ -92,14 +92,13 @@ namespace ListenHttp
             }
             else if (System.IO.Path.HasExtension(url.Substring(url.LastIndexOf('/'))))
             {
-                throw new Exception("请求了文件" + url + "，已拒绝访问！");
-                //return new UrlResult(url);
+                return new UrlResult(url);
             }
             else
             {
                 //检测路径是否匹配该路由
-                string[] parameters = url.Split(new char[] { '{', '}', '/', '?' }, StringSplitOptions.RemoveEmptyEntries);
-                if (parameters.Length - 1 != AnalysisRule.Length)
+                string[] parameters = url.Split(new char[] { '{', '}', '/' }, StringSplitOptions.RemoveEmptyEntries);
+                if (parameters.Length != AnalysisRule.Length)
                 {
                     return null;
                 }
