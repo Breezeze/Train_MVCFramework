@@ -8,12 +8,11 @@ using System.Net;
 
 namespace Controllers
 {
-    public class HomeController : ListenHttp.Controller
+    public class ShowController : Controller
     {
-        public HomeController(HttpListenerContext _context, UrlResult ur) : base(_context, ur)
+        public ShowController(HttpListenerContext _context, UrlResult ur) : base(_context, ur)
         {
         }
-
         public ActionResult index()
         {
             if (requestForm.Count != 0)
@@ -26,5 +25,18 @@ namespace Controllers
             ViewData.Add("wef_123", ";ljwlefjlkwejflksdafl");
             return View();
         }
+
+        public ActionResult IsGetOrPost()
+        {
+            if (requestForm.Count != 0)
+                Console.WriteLine(context.Request.HttpMethod + "请求参数：");
+            foreach (var item in requestForm.Keys)
+            {
+                Console.WriteLine(item + "：" + requestForm[item]);
+            }
+            string respon = "This is a " + context.Request.HttpMethod + " Request.\n";
+            return View(respon, true);
+        }
+
     }
 }

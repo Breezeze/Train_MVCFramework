@@ -59,9 +59,9 @@ namespace ListenHttp
         }
 
         /// <summary>
-        ///（遍历路由表）
+        /// 遍历路由表
         /// </summary>
-        public static UrlResult AnalysisUrl(string url)
+        internal static UrlResult AnalysisUrl(string url)
         {
             foreach (Route route in list)
             {

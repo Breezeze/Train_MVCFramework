@@ -10,16 +10,15 @@ namespace ListenHttp
     public class ActionResult : ISendResponse
     {
         private ActionResult() { }
-        public ActionResult(string responseString, int statusCode, string contextType)
+        internal ActionResult(string responseString, int statusCode, string contextType)
         {
             ResponseString = responseString;
             StatusCode = statusCode;
             ContextType = contextType;
         }
 
-        private int StatusCode { get; }
-        private Encoding ContentEncoding { get { return Encoding.UTF8; } }
-        private string ResponseString { get; }
+        private int StatusCode;
+        private string ResponseString;
 
         /* ContextType类型：
              text/html ： HTML格式
@@ -51,8 +50,8 @@ namespace ListenHttp
 
             response.StatusCode = StatusCode;
             response.ContentType = ContextType;
-            response.ContentEncoding = ContentEncoding;
-            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(ResponseString);
+            response.ContentEncoding = Encoding.UTF8;
+            byte[] buffer = Encoding.UTF8.GetBytes(ResponseString);
             response.ContentLength64 = buffer.Length;
             System.IO.Stream output = response.OutputStream;
             output.Write(buffer, 0, buffer.Length);

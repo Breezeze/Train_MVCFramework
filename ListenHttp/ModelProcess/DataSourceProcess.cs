@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ListenHttp
 {
-    internal interface ISendResponse
+    public class DataSourceProcess
     {
-        void SendResponse(System.Net.HttpListenerResponse response);
+
     }
 }

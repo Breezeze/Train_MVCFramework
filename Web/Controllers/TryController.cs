@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Controllers
 {
-    public class TryController : ListenHttp.ControllerBase
+    public class TryController : ListenHttp.Controller
     {
         public TryController(HttpListenerContext _context, UrlResult ur) : base(_context, ur)
         {
         }
 
-        public ISendResponse tryAction()
+        public ActionResult tryAction()
         {
             string respon = "<html><head><meta charset='utf-8'></head><body>当前时间：";
             respon += DateTime.Now + "<br />";
@@ -29,7 +29,7 @@ namespace Controllers
             respon += "</body></html>";
             return View(respon, true);
         }
-        public ISendResponse index()
+        public ActionResult index()
         {
             string respon = "<html><head><meta charset='utf-8'></head><body>当前时间：";
             respon += DateTime.Now + "<br />";
@@ -46,14 +46,14 @@ namespace Controllers
             return View(respon, true);
         }
 
-        public ISendResponse home()
+        public ActionResult home()
         {
             string respon = "<html><head><meta charset='utf-8'></head><body>当前时间：";
             respon += DateTime.Now + "<br />成功！";
             respon += "</body></html>";
             return View(respon, true);
         }
-        public ISendResponse HtmlPage()
+        public ActionResult HtmlPage()
         {
             return View();
         }

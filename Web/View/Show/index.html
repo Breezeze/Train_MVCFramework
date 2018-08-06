@@ -6,14 +6,14 @@
     <script src="../../JS/jquery-1.10.2.min.js"></script>
     <script type="text/javascript">
         function SubmitPost() {
-            var url = "http://localhost:8080/Home/IsGetOrPost/wef";
+            var url = "http://localhost:8080/Show/IsGetOrPost/wef";
             $.post(url, { name: "John", time: "2pm" },
              function (data) {
                  alert("Data Loaded: " + data);
              });
         }
         function SubmitPost2() {
-            var url = "http://localhost:8080/Home/IsGetOrPost/wef";
+            var url = "http://localhost:8080/Show/IsGetOrPost/wef";
             var data = "{'account':'" + "wefwe" + "','password':'" + "vcxb" + "'}";
             $.post(url, data,
              function (data) {
@@ -29,7 +29,7 @@
     @ViewData["感叹号"]<br />
 
 
-    <form action="/Home/IsGetOrPost/wef" method="post">
+    <form action="/Show/IsGetOrPost/wef" method="post">
         <input type="text" value="asd" name="asd" /><br />
         <input type="button" value="提交Post请求" onclick="SubmitPost()" /><br />
         <input type="button" value="提交Post请求" onclick="SubmitPost2()" /><br />

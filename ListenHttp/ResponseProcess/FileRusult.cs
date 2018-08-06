@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace ListenHttp
 {
-    public class FileResult : ISendResponse
+    internal class FileResult : ISendResponse
     {
-        public FileResult(string filePath)
+        internal FileResult(string filePath)
         {
             this.filePath = filePath;
         }
@@ -33,6 +33,10 @@ namespace ListenHttp
                 System.IO.Stream output = response.OutputStream;
                 output.Write(buffer, 0, buffer.Length);
                 output.Dispose();
+            }
+            else
+            {
+                throw new WebException(404, "未找到该文件！");
             }
         }
     }

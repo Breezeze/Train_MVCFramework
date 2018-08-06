@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ListenHttp
 {
-    public class WebException : Exception, ISendResponse
+    internal class WebException : Exception, ISendResponse
     {
-        public WebException(int statusCode, string errorString)
+        internal WebException(int statusCode, string errorString)
         {
             this.statusCode = statusCode;
             this.errorString = errorString;
@@ -21,7 +21,7 @@ namespace ListenHttp
         /// 外界调用的错误处理程序
         /// </summary>
         /// <param name="ex"></param>
-        public static void ErrorProcess(Exception ex, HttpListenerResponse response)
+        internal static void ErrorProcess(Exception ex, HttpListenerResponse response)
         {
             if (ex is WebException)
             {
