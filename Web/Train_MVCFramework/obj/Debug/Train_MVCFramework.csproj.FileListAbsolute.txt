@@ -17,4 +17,3 @@ C:\Users\Administrator\Desktop\Train_MVCFramework\Web\Train_MVCFramework\bin\Deb
 C:\Users\Administrator\Desktop\Train_MVCFramework\Web\Train_MVCFramework\obj\Debug\Train_MVCFramework.csprojResolveAssemblyReference.cache
 C:\Users\Administrator\Desktop\Train_MVCFramework\Web\Train_MVCFramework\obj\Debug\Train_MVCFramework.exe
 C:\Users\Administrator\Desktop\Train_MVCFramework\Web\Train_MVCFramework\obj\Debug\Train_MVCFramework.pdb
-C:\Users\Administrator\Desktop\Train_MVCFramework\Web\Train_MVCFramework\bin\Debug\ListenHttp.pdb

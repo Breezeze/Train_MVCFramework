@@ -27,7 +27,6 @@ namespace ListenHttp
         protected HttpListenerRequest request { get { return context.Request; } }
         protected HttpListenerResponse response { get { return context.Response; } }
         protected UrlResult urlResult;
-        private const string rootDirectory = @"..\..\..\..\Web\View\";
 
         /// <summary>
         /// C-V传值字典
@@ -37,16 +36,17 @@ namespace ListenHttp
         /// <summary>
         /// 返回视图
         /// </summary>
-        /// <returns></returns>
-        protected ActionResult View()
+        protected ISendResponse View()
         {
-            string viewUrl = rootDirectory + urlResult.Controller + "\\" + urlResult.Action + ".html";
+
+            string viewUrl = Listener.WebRootDirectory + "\\View\\" + urlResult.Controller + "\\" + urlResult.Action + ".html";
             return View(viewUrl);
         }
-        protected ActionResult View(string viewUrl)
+        protected ISendResponse View(string viewUrl)
         {
             StreamReader sr = new StreamReader(viewUrl, Encoding.UTF8);
             string strhtml = sr.ReadToEnd();
+            sr.Dispose();
 
             ////匹配@ViewData["****"]型字符串，***可以为数字字母下划线，不知道为什么不行
             //string regularExpression = "^@ViewData\\[\"[a-zA-Z0-9_]+\"\\]$";
@@ -67,9 +67,9 @@ namespace ListenHttp
                     strhtml = strhtml.Replace("@ViewData[\"" + dataName[i] + "\"]", (string)ViewData[dataName[i]]);
                 }
             }
-            return new ActionResult(context.Response, strhtml, 200, "text/html");
+            return new ActionResult(strhtml, 200, "text/html");
         }
-        protected ActionResult View(string HtmlStr, bool isHmtlStr)
+        protected ISendResponse View(string HtmlStr, bool isHmtlStr)
         {
             if (isHmtlStr)
             {
@@ -92,38 +92,23 @@ namespace ListenHttp
                         HtmlStr = HtmlStr.Replace("@ViewData[\"" + dataName[i] + "\"]", ViewData[dataName[i]]);
                     }
                 }
-                return new ActionResult(context.Response, HtmlStr, 200, "text/html");
+                return new ActionResult(HtmlStr, 200, "text/html");
             }
             else
             {
-                throw new WebException(500, context, "服务器内部编码错误！");
+                throw new WebException(500, "服务器内部编码错误！");
             }
         }
 
-
-
-
         /// <summary>
-        /// C-V传值----ViewData
+        /// 写入响应流数据
         /// </summary>
-        public class ViewDataBase
+        protected void ResponseWrite(string responseString)
         {
-            private Dictionary<string, string> ViewData = new Dictionary<string, string>();
-            public string this[string name]
-            {
-                get
-                {
-                    return ViewData.ContainsKey(name) ? ViewData[name] : null;
-                }
-                set
-                {
-                    ViewData.Add(name, value);
-                }
-            }
-            public void Add(string key, string value)
-            {
-                ViewData.Add(key, value);
-            }
+            byte[] buffer = Encoding.UTF8.GetBytes(responseString);
+            response.ContentLength64 = buffer.Length;
+            System.IO.Stream output = response.OutputStream;
+            output.Write(buffer, 0, buffer.Length);
         }
     }
 

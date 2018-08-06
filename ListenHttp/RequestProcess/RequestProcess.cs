@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace ListenHttp
 {
-    public static class ExecuteController
+    public static class RequestProcess
     {
 
         public static Dictionary<string, Type> _subClassList = new Dictionary<string, Type>();
         /// <summary>
         /// 读取dll中Controller
         /// </summary>
-        static ExecuteController()
+        static RequestProcess()
         {
             if (System.IO.File.Exists("Controllers.dll"))
             {
@@ -37,24 +37,15 @@ namespace ListenHttp
         }
 
         /// <summary>
-        /// 根据解析后的url调用Controller的Action
+        /// 根据解析后的url处理请求
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="ur"></param>
-        /// <returns></returns>
-        public static ActionResult InvokingAction(System.Net.HttpListenerContext context, UrlResult ur)
+        public static ISendResponse ExecuteProcess(HttpListenerContext context)
         {
+            //通过路由解析url
+            UrlResult ur = Route.AnalysisUrl(context.Request.Url.PathAndQuery);
             if (ur["filepath"] != null)
             {
-                ActionResult ar = ProcessFileRequest(ur["filepath"], context.Response);
-                if (ar == null)
-                {
-                    throw new WebException(404, context, "服务器上未找到该文件！");
-                }
-                else
-                {
-                    return ar;
-                }
+                return new FileResult(ur["filepath"]);
             }
             else if (ur.Controller != null)
             {
@@ -67,29 +58,13 @@ namespace ListenHttp
                         if (item.Name.ToLower().Equals(ur.Action))
                         {
                             object[] objParameters = new object[] { };
-                            return (ActionResult)item.Invoke(obj, objParameters);
+                            return (ISendResponse)item.Invoke(obj, objParameters);
                         }
                     }
                 }
-                throw new WebException(404, context, "未找到该页面！");
+                return new WebException(404, "未找到该页面！");
             }
-            throw new WebException(400, context, "请检测路径的正确性！");
-        }
-
-        public static ActionResult ProcessFileRequest(string _path, HttpListenerResponse response)
-        {
-            const string rootDirectory = @"..\..\..\..\Web";
-            string filepath = rootDirectory + _path.Replace('/', '\\');
-            if (File.Exists(filepath))
-            {
-                StreamReader sr = new StreamReader(filepath, Encoding.UTF8);
-                string strhtml = sr.ReadToEnd();
-                return new ActionResult(response, strhtml, 200, "octet-stream");
-            }
-            else
-            {
-                return null;
-            }
+            return new WebException(400, "请检测路径的正确性！");
         }
     }
 }

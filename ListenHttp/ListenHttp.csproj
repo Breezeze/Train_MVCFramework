@@ -40,15 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExecuteController.cs" />
-    <Compile Include="ControllerBase.cs" />
+    <Compile Include="BusinessLogic\ViewDataBase.cs" />
+    <Compile Include="RequestProcess\RequestProcess.cs" />
+    <Compile Include="BusinessLogic\ControllerBase.cs" />
+    <Compile Include="ResponseProcess\ISendResponse.cs" />
     <Compile Include="Listener.cs" />
     <Compile Include="ProcessPost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ActionResult.cs" />
-    <Compile Include="Route.cs" />
-    <Compile Include="UrlResult.cs" />
-    <Compile Include="WebException.cs" />
+    <Compile Include="ResponseProcess\ActionResult.cs" />
+    <Compile Include="ResponseProcess\FileRusult.cs" />
+    <Compile Include="RequestProcess\UrlProcess\Route.cs" />
+    <Compile Include="RequestProcess\UrlProcess\UrlResult.cs" />
+    <Compile Include="ResponseProcess\WebException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

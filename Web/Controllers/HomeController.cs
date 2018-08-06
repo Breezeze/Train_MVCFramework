@@ -15,13 +15,13 @@ namespace Controllers
         }
 
 
-        public ActionResult index()
+        public ISendResponse index()
         {
             ViewData["感叹号"] = "!!!!!!!!!!!!!!!!!!!!!!!!!!!";
             ViewData.Add("wef_123", ";ljwlefjlkwejflksdafl");
             return View();
         }
-        public ActionResult IsGetOrPost()
+        public ISendResponse IsGetOrPost()
         {
             string respon = "经过判别，这是一个" + (isGet ? "Get" : "Post") + "请求。\n";
             if (!isGet)

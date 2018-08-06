@@ -7,21 +7,19 @@ using System.Threading.Tasks;
 
 namespace ListenHttp
 {
-    public class ActionResult
+    public class ActionResult : ISendResponse
     {
-        public ActionResult() { }
-        public ActionResult(HttpListenerResponse response, string responseString, int statusCode,string contextType)
+        private ActionResult() { }
+        public ActionResult(string responseString, int statusCode, string contextType)
         {
-            Response = response;
             ResponseString = responseString;
             StatusCode = statusCode;
             ContextType = contextType;
         }
 
-        private int StatusCode { get; set; }
+        private int StatusCode { get; }
         private Encoding ContentEncoding { get { return Encoding.UTF8; } }
-        private string ResponseString { get; set; }
-        private HttpListenerResponse Response { get; }
+        private string ResponseString { get; }
 
         /* ContextType类型：
              text/html ： HTML格式
@@ -46,20 +44,19 @@ namespace ListenHttp
         /// 发送响应，收尾
         /// </summary>
         /// <param name="context"></param>
-        public void SendResponse()
+        public void SendResponse(HttpListenerResponse response)
         {
 
-            Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            response.Headers.Add("Access-Control-Allow-Origin", "*");
 
-            Response.StatusCode = StatusCode;
-            Response.ContentType = ContextType;
-            Response.ContentEncoding = ContentEncoding;
+            response.StatusCode = StatusCode;
+            response.ContentType = ContextType;
+            response.ContentEncoding = ContentEncoding;
             byte[] buffer = System.Text.Encoding.UTF8.GetBytes(ResponseString);
-            Response.ContentLength64 = buffer.Length;
-            System.IO.Stream output = Response.OutputStream;
+            response.ContentLength64 = buffer.Length;
+            System.IO.Stream output = response.OutputStream;
             output.Write(buffer, 0, buffer.Length);
             output.Close();
         }
-        
     }
 }

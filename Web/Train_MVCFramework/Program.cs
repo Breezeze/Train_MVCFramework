@@ -33,7 +33,7 @@ namespace Train_MVCFramework
             #endregion
 
 
-            Listener lis = new Listener();
+            Listener lis = new Listener(@"..\..\..\..\Web");
             lis.StartListen("http://127.0.0.1:8080/", "http://127.0.0.1:8081/");
             Route.RegisterRoute("Default", "{controller}/{action}/{id}", "/home/index/1");
             while (Console.ReadKey().Key != ConsoleKey.Escape)

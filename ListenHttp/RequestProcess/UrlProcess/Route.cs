@@ -53,9 +53,6 @@ namespace ListenHttp
         /// <summary>
         /// 注册路由
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="analysisRule"></param>
-        /// <param name="defaultUrl"></param>
         public static void RegisterRoute(string name, string analysisRule, string defaultUrl)
         {
             new Route(name, analysisRule, defaultUrl);
@@ -64,8 +61,6 @@ namespace ListenHttp
         /// <summary>
         ///（遍历路由表）
         /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
         public static UrlResult AnalysisUrl(string url)
         {
             foreach (Route route in list)
@@ -76,7 +71,7 @@ namespace ListenHttp
                     return ur;
                 }
             }
-            throw new Exception("请检测路径是否正确！", new WebException(400));
+            throw new WebException(400,"请检测路径是否正确！");
         }
 
         /// <summary>

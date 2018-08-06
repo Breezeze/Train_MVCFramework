@@ -12,17 +12,19 @@ namespace ListenHttp
     /// </summary>
     public class Listener
     {
-        public Listener()
+        public Listener(string webRootDirectory)
         {
+            _wrd = webRootDirectory;
             sSocket = new HttpListener();
         }
 
         private HttpListener sSocket;
+        private static string _wrd;
+        public static string WebRootDirectory { get { return _wrd; } }
 
         /// <summary>
         /// 开始监听
         /// </summary>
-        /// <param name="urls"></param>
         public void StartListen(params string[] urls)
         {
             try
@@ -51,7 +53,6 @@ namespace ListenHttp
         /// <summary>
         /// 异步函数
         /// </summary>
-        /// <param name="ar"></param>
         private void GetContextCallBack(IAsyncResult ar)
         {
             sSocket = ar.AsyncState as HttpListener;
@@ -63,27 +64,22 @@ namespace ListenHttp
         /// <summary>
         /// 处理请求和编写响应
         /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
         private void CoreProcess(HttpListenerContext context)
         {
             try
             {
                 //客户端访问记录
-                Console.WriteLine(context.Request.Url.PathAndQuery);
+                Console.WriteLine("客户端发出请求：" + context.Request.Url);
 
-                //通过路由解析url
-                UrlResult ur = Route.AnalysisUrl(context.Request.Url.PathAndQuery);
-
-                //通过url交给对应Controller进行处理，返回响应字符串
-                ActionResult ar = ExecuteController.InvokingAction(context, ur);
+                //通过url交给对应Controller进行处理，返回发送响应报文类
+                ISendResponse sr = RequestProcess.ExecuteProcess(context);
 
                 //发送响应报文
-                ar.SendResponse();
+                sr.SendResponse(context.Response);
             }
             catch (Exception ex)
             {
-                WebException.ErrorProcess(ex, context);
+                WebException.ErrorProcess(ex, context.Response);
             }
         }
 
