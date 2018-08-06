@@ -28,15 +28,8 @@ namespace ListenHttp
         /// </summary>
         private void SendErrorResponse()
         {
-            HttpListenerResponse response = context.Response;
-            response.StatusCode = statusCode;
-            response.ContentEncoding = Encoding.UTF8;
             string responseString = "<html><head><meta charset='utf-8'></head><body>请求失败！<br />" + errorString + "</body></html>";
-            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
-            response.ContentLength64 = buffer.Length;
-            System.IO.Stream output = response.OutputStream;
-            output.Write(buffer, 0, buffer.Length);
-            output.Close();
+            (new ActionResult(context.Response, responseString, statusCode, "text/html")).SendResponse();
         }
 
         /// <summary>

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +13,9 @@ namespace ListenHttp
     {
 
         public static Dictionary<string, Type> _subClassList = new Dictionary<string, Type>();
+        /// <summary>
+        /// 读取dll中Controller
+        /// </summary>
         static ExecuteController()
         {
             if (System.IO.File.Exists("Controllers.dll"))
@@ -37,30 +42,54 @@ namespace ListenHttp
         /// <param name="context"></param>
         /// <param name="ur"></param>
         /// <returns></returns>
-        public static ResultAction InvokingAction(System.Net.HttpListenerContext context, UrlResult ur)
+        public static ActionResult InvokingAction(System.Net.HttpListenerContext context, UrlResult ur)
         {
             if (ur["filepath"] != null)
             {
-                throw new WebException(403, context, "拒绝文件请求");
+                ActionResult ar = ProcessFileRequest(ur["filepath"], context.Response);
+                if (ar == null)
+                {
+                    throw new WebException(404, context, "服务器上未找到该文件！");
+                }
+                else
+                {
+                    return ar;
+                }
             }
             else if (ur.Controller != null)
             {
                 if (_subClassList.ContainsKey(ur.Controller))
                 {
                     List<MethodInfo> actions = _subClassList[ur.Controller].GetMethods().ToList();
-                    object obj = Activator.CreateInstance(_subClassList[ur.Controller]);
+                    object obj = Activator.CreateInstance(_subClassList[ur.Controller], new object[] { context, ur });
                     foreach (MethodInfo item in actions)
                     {
                         if (item.Name.ToLower().Equals(ur.Action))
                         {
-                            string responseString = (string)item.Invoke(obj, new object[] { context });
-                            return new ResultAction(context.Response, responseString, 200);
+                            object[] objParameters = new object[] { };
+                            return (ActionResult)item.Invoke(obj, objParameters);
                         }
                     }
                 }
+                throw new WebException(404, context, "未找到该页面！");
             }
             throw new WebException(400, context, "请检测路径的正确性！");
         }
 
+        public static ActionResult ProcessFileRequest(string _path, HttpListenerResponse response)
+        {
+            const string rootDirectory = @"..\..\..\..\Web";
+            string filepath = rootDirectory + _path.Replace('/', '\\');
+            if (File.Exists(filepath))
+            {
+                StreamReader sr = new StreamReader(filepath, Encoding.UTF8);
+                string strhtml = sr.ReadToEnd();
+                return new ActionResult(response, strhtml, 200, "octet-stream");
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

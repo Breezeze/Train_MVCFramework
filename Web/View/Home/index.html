@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="../../JS/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        function SubmitPost() {
+            var url = "http://localhost:8080/Home/IsGetOrPost/wef";
+            var data = "{'account':'" + "wefwe" + "','password':'" + "vcxb" + "'}";
+            $.post(url, { name: "John", time: "2pm" },
+             function (data) {
+                 alert("Data Loaded: " + data);
+             });
+        }
+
+    </script>
+</head>
+<body>
+    成功啦！！！<br />
+    @ViewData["wef_123"]<br />
+    @ViewData["感叹号"]<br />
+
+
+    <form action="/Home/IsGetOrPost/wef" method="post">
+        <input type="text" value="asd" name="asd" />
+        <input type="button" value="提交Post请求" onclick="SubmitPost()" />
+    </form>
+</body>
+</html>

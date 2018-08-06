@@ -69,14 +69,17 @@ namespace ListenHttp
         {
             try
             {
+                //客户端访问记录
+                Console.WriteLine(context.Request.Url.PathAndQuery);
+
                 //通过路由解析url
                 UrlResult ur = Route.AnalysisUrl(context.Request.Url.PathAndQuery);
 
                 //通过url交给对应Controller进行处理，返回响应字符串
-                ResultAction ra = ExecuteController.InvokingAction(context, ur);
+                ActionResult ar = ExecuteController.InvokingAction(context, ur);
 
                 //发送响应报文
-                ra.SendResponse();
+                ar.SendResponse();
             }
             catch (Exception ex)
             {
