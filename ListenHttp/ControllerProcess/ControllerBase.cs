@@ -60,25 +60,7 @@ namespace ListenHttp
         {
             if (isHmtlStr)
             {
-                ////匹配@ViewData["****"]型字符串，***可以为数字字母下划线，不知道为什么不行
-                //string regularExpression = "^@ViewData\\[\"[a-zA-Z0-9_]+\"\\]$";
-
-                //实现视图ViewData转为数据
-                string regularExpression = "@ViewData\\[\"";
-                MatchCollection mc = Regex.Matches(HtmlStr, regularExpression, RegexOptions.ECMAScript);
-                string[] dataName = new string[mc.Count];
-                for (int i = 0; i < mc.Count; i++)     //matchcollection.Count所匹配项的数量
-                {
-                    int length = HtmlStr.Substring(mc[i].Index).IndexOf("\"]") - regularExpression.Length;
-                    dataName[i] = HtmlStr.Substring(mc[i].Index + regularExpression.Length - 1, length + 1);
-                }
-                for (int i = 0; i < mc.Count; i++)
-                {
-                    if (ViewData[dataName[i]] != null)
-                    {
-                        HtmlStr = HtmlStr.Replace("@ViewData[\"" + dataName[i] + "\"]", ViewData[dataName[i]]);
-                    }
-                }
+                ViewData.Change(HtmlStr);
                 return new ActionResult(HtmlStr, 200, "text/html");
             }
             else

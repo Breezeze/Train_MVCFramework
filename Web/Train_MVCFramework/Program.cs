@@ -36,6 +36,7 @@ namespace Train_MVCFramework
             Listener lis = new Listener(@"..\..\..\..\Web");
             lis.StartListen("http://127.0.0.1:8080/", "http://127.0.0.1:8081/");
             Route.RegisterRoute("Default", "{controller}/{action}/{id}", "/home/index/1");
+            Route.RegisterRoute("Default2", "{controller}/{action}", "/home/index");
             System.Diagnostics.Process.Start("explorer.exe", "http://localhost:8080/");
             while (Console.ReadKey().Key != ConsoleKey.Escape)
             {

@@ -16,14 +16,19 @@ namespace Controllers
 
         public ActionResult index()
         {
-            if (requestForm.Count != 0)
-                Console.WriteLine(context.Request.HttpMethod + "请求参数：");
-            foreach (var item in requestForm.Keys)
+            for (int i = 0; i < ctrlAction.Count; i++)
             {
-                Console.WriteLine(item + "：" + requestForm[item]);
+                for (int j = 1; j < ctrlAction[i].Length; j++)
+                {
+                    ViewData.Add("ControllerAndAction_" + i + "_" + (j - 1), "/" + ctrlAction[i][0] + "/" + ctrlAction[i][j]);
+                }
             }
-            ViewData["感叹号"] = "!!!!!!!!!!!!!!!!!!!!!!!!!!!";
-            ViewData.Add("wef_123", ";ljwlefjlkwejflksdafl");
+            return View();
+        }
+        public ActionResult HelloWorld()
+        {
+            ViewData.Add("HelloWorld", "HelloWorld!!!");
+
             return View();
         }
     }

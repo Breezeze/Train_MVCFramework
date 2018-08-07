@@ -15,11 +15,12 @@ namespace Controllers
         }
         public ActionResult index()
         {
+            string respon = "";
             if (requestForm.Count != 0)
-                Console.WriteLine(context.Request.HttpMethod + "请求参数：");
+                respon += context.Request.HttpMethod + "请求参数：\n";
             foreach (var item in requestForm.Keys)
             {
-                Console.WriteLine(item + "：" + requestForm[item]);
+                respon += item + "：" + requestForm[item] + "\n";
             }
             ViewData["感叹号"] = "!!!!!!!!!!!!!!!!!!!!!!!!!!!";
             ViewData.Add("wef_123", ";ljwlefjlkwejflksdafl");
@@ -28,13 +29,14 @@ namespace Controllers
 
         public ActionResult IsGetOrPost()
         {
+            string respon = "";
             if (requestForm.Count != 0)
-                Console.WriteLine(context.Request.HttpMethod + "请求参数：");
+                respon += context.Request.HttpMethod + "请求参数：\n";
             foreach (var item in requestForm.Keys)
             {
-                Console.WriteLine(item + "：" + requestForm[item]);
+                respon += item + "：" + requestForm[item] + "\n";
             }
-            string respon = "This is a " + context.Request.HttpMethod + " Request.\n";
+            respon += "This is a " + context.Request.HttpMethod + " Request.\n";
             return View(respon, true);
         }
 

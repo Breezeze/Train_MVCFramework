@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="HomeController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShowController.cs" />
     <Compile Include="TryController.cs" />
   </ItemGroup>
   <ItemGroup>

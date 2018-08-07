@@ -36,11 +36,11 @@ namespace ListenHttp
 
         public void SendResponse(HttpListenerResponse response)
         {
-            string responseString = "请求失败！\n" + errorString;
+            string html = "<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"></head><body>" + "请求失败！\n" + errorString + "</body></html>";
             response.StatusCode = statusCode;
-            response.ContentType = "text/plain";
+            response.ContentType = "text/html";
             response.ContentEncoding = Encoding.UTF8;
-            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
+            byte[] buffer = Encoding.UTF8.GetBytes(html);
             response.ContentLength64 = buffer.Length;
             System.IO.Stream output = response.OutputStream;
             output.Write(buffer, 0, buffer.Length);

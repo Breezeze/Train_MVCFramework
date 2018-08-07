@@ -41,10 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessLogic\ViewDataBase.cs" />
-    <Compile Include="DataSourceProcess\DataSourceProcess.cs" />
+    <Compile Include="ControllerProcess\Controller.cs" />
+    <Compile Include="ControllerProcess\ViewDataBase.cs" />
+    <Compile Include="ModelProcess\DataSourceProcess.cs" />
     <Compile Include="RequestProcess\RequestProcess.cs" />
-    <Compile Include="BusinessLogic\ControllerBase.cs" />
+    <Compile Include="ControllerProcess\ControllerBase.cs" />
     <Compile Include="ResponseProcess\ISendResponse.cs" />
     <Compile Include="Listener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

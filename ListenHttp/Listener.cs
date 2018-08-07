@@ -21,7 +21,7 @@ namespace ListenHttp
 
         private HttpListener sSocket;
         private static string _wrd;
-        private AutoResetEvent _done = new AutoResetEvent(false);
+        //private AutoResetEvent _done = new AutoResetEvent(false);
         internal static string WebRootDirectory { get { return _wrd; } }
 
         /// <summary>
@@ -64,8 +64,8 @@ namespace ListenHttp
         {
             sSocket = ar.AsyncState as HttpListener;
             HttpListenerContext context = sSocket.EndGetContext(ar);
-            sSocket.BeginGetContext(new AsyncCallback(GetContextCallBack), sSocket);
             CoreProcess(context);
+            sSocket.BeginGetContext(new AsyncCallback(GetContextCallBack), sSocket);
         }
 
         /// <summary>
@@ -89,11 +89,11 @@ namespace ListenHttp
             {
                 WebException.ErrorProcess(ex, context.Response);
             }
-            finally
-            {
-                //发送释放信号
-                _done.Set();
-            }
+            //finally
+            //{
+            //    //发送释放信号
+            //    _done.Set();
+            //}
         }
 
         /// <summary>

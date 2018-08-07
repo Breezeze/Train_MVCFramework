@@ -15,12 +15,22 @@ namespace ListenHttp
         public Controller(HttpListenerContext _context, UrlResult ur) : base(_context, ur)
         {
             ExtractParameters();
+            if (ctrlAction == null)
+            {
+                ctrlAction = RequestProcess.ctrlActions;
+            }
         }
+
+
 
         /// <summary>
         /// 请求参数列表
         /// </summary>
         protected Dictionary<string, string> requestForm = new Dictionary<string, string>();
+        /// <summary>
+        /// 控制器方法列表
+        /// </summary>
+        protected static List<string[]> ctrlAction = null;
 
         /// <summary>
         /// 请求参数列表
