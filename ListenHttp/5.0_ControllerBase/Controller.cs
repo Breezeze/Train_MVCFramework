@@ -15,7 +15,7 @@ namespace ListenHttp
         /// <summary>
         /// 控制器方法列表
         /// </summary>
-        protected static List<string[]> ctrlAction = null;
+        protected static List<string[]> ctrlAction { get; set; }
 
         public Controller(ListenHttpRequest request) : base(request)
         {

@@ -98,7 +98,7 @@ namespace ListenHttp
                     return null;
                 }
                 //构建分析结果，并返回
-                return new ListenHttp.UrlResult(this, AnalysisRule, parameters);
+                return new UrlResult(this, AnalysisRule, parameters);
             }
         }
 

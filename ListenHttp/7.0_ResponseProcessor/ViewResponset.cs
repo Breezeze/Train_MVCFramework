@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace ListenHttp
 {
-    public class ActionResult : IExecuteResponse
+    public class ViewResponse : IManageResponse
     {
         private ListenHttpResponse _response;
 
-        internal ActionResult(ListenHttpResponse response)
+        internal ViewResponse(ListenHttpResponse response)
         {
             _response = response;
         }
@@ -20,7 +20,7 @@ namespace ListenHttp
         /// 发送响应，收尾
         /// </summary>
         /// <param name="context"></param>
-        public void ExecuteResponse(HttpListenerResponse response)
+        public void ManageResponse(HttpListenerResponse response)
         {
             foreach (var item in _response.Header.Keys)
             {

@@ -16,33 +16,34 @@ namespace ListenHttp
         //ControllerBase：提供最基本、核心的行为，与基层服务通讯
         //Controller:提供中层实现，更便利更全面的方法和属性
 
-        protected ListenHttpRequest Request;
-        protected ListenHttpResponse response;
+        protected ListenHttpRequest Request { get; }
+        protected ListenHttpResponse response { get; }
+        /// <summary>
+        /// C-V传值字典
+        /// </summary>
+        protected ViewDataBase ViewData { get; }
+
         public ControllerBase(ListenHttpRequest request)
         {
             Request = request;
             response = new ListenHttpResponse();
             response.StatusCode = 200;
             response.ContentType = "text/html";
+            ViewData = new ViewDataBase();
         }
-
-        /// <summary>
-        /// C-V传值字典
-        /// </summary>
-        protected ViewDataBase ViewData = new ViewDataBase();
 
         #region ActionResult View()     返回最终结果
 
         /// <summary>
         /// 返回视图
         /// </summary>
-        protected ActionResult View()
+        protected ViewResponse View()
         {
 
             string viewUrl = @"..\..\..\Web" + "\\View\\" + Request.UrlResult.Controller + "\\" + Request.UrlResult.Action + ".html";
             return View(viewUrl);
         }
-        protected ActionResult View(string viewUrl)
+        protected ViewResponse View(string viewUrl)
         {
             StreamReader sr = new StreamReader(viewUrl, Encoding.UTF8);
             string strhtml = sr.ReadToEnd();
@@ -53,12 +54,12 @@ namespace ListenHttp
         /// 不用视图文件，直接在Controller中编写html代码
         /// </summary>
         /// <param name="isHmtlStr">true</param>
-        protected ActionResult View(string HtmlStr, bool isHmtlStr)
+        protected ViewResponse View(string HtmlStr, bool isHmtlStr)
         {
             if (isHmtlStr)
             {
                 response.ResponseString += ViewData.ReplaceViewDataDic(HtmlStr);
-                return new ActionResult(response);
+                return new ViewResponse(response);
             }
             else
             {

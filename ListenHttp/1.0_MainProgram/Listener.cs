@@ -14,11 +14,11 @@ namespace ListenHttp
     public class Listener
     {
 
-        private HttpListener sSocket;
+        private HttpListener _httpListener;
 
         public Listener(params string[] urls)
         {
-            sSocket = new HttpListener();
+            _httpListener = new HttpListener();
             if (!HttpListener.IsSupported)
             {
                 throw new Exception("无法在当前系统上运行服务(Windows XP SP2 or Server 2003)。");
@@ -29,7 +29,7 @@ namespace ListenHttp
             }
             for (int i = 0; i < urls.Length; i++)
             {
-                sSocket.Prefixes.Add(urls[i]);
+                _httpListener.Prefixes.Add(urls[i]);
             }
         }
 
@@ -39,8 +39,8 @@ namespace ListenHttp
         public void StartListen()
         {
             Console.WriteLine("开始监听！");
-            sSocket.Start();
-            sSocket.BeginGetContext(new AsyncCallback(GetContextCallBack), sSocket);
+            _httpListener.Start();
+            _httpListener.BeginGetContext(new AsyncCallback(GetContextCallBack), _httpListener);
         }
 
         /// <summary>
@@ -52,10 +52,10 @@ namespace ListenHttp
             //executeTime.Start();
             //executeTime.Stop();
             //Console.WriteLine(executeTime.Elapsed.TotalSeconds * 1000);
-            sSocket = ar.AsyncState as HttpListener;
-            HttpListenerContext context = sSocket.EndGetContext(ar);
+            _httpListener = ar.AsyncState as HttpListener;
+            HttpListenerContext context = _httpListener.EndGetContext(ar);
             TreatmentScheme(context);
-            sSocket.BeginGetContext(new AsyncCallback(GetContextCallBack), sSocket);
+            _httpListener.BeginGetContext(new AsyncCallback(GetContextCallBack), _httpListener);
         }
 
         /// <summary>
@@ -65,11 +65,17 @@ namespace ListenHttp
         {
             try
             {
-                //通过url交给对应Controller进行处理，返回发送响应报文类
-                IExecuteResponse executeResponse = RequestProcess.ExecuteProcess(context);
+                //封装HttpListenerRequest
+                ListenHttpRequest request = new ListenHttpRequest(context.Request);
 
-                //发送响应报文
-                executeResponse.ExecuteResponse(context.Response);
+                //解析URL，获取对应的请求处理类
+                IManageRequest manageRequest = RequestProcess.ExecuteProcess(request.UrlResult);
+
+                //根据不同请求处理类，获取不同的响应报文处理类
+                IManageResponse manageResponse = manageRequest.ManageRequest(request);
+
+                //处理并发送响应报文
+                manageResponse.ManageResponse(context.Response);
             }
             catch (Exception ex)
             {
@@ -82,7 +88,7 @@ namespace ListenHttp
         /// </summary>
         public void EndListen()
         {
-            sSocket.Stop();
+            _httpListener.Stop();
             Console.WriteLine("EndListen");
             System.Threading.Thread.Sleep(2000);
         }

@@ -14,7 +14,7 @@ namespace Controllers
         {
         }
 
-        public ActionResult tryAction()
+        public ViewResponse tryAction()
         {
             string respon = "<html><head><meta charset='utf-8'></head><body>当前时间：";
             respon += DateTime.Now + "<br />";
@@ -30,7 +30,7 @@ namespace Controllers
             return View(respon, true);
         }
 
-        public ActionResult index()
+        public ViewResponse index()
         {
             string respon = "<html><head><meta charset='utf-8'></head><body>当前时间：";
             respon += DateTime.Now + "<br />";
@@ -46,7 +46,7 @@ namespace Controllers
             return View(respon, true);
         }
 
-        public ActionResult home()
+        public ViewResponse home()
         {
             string respon = "<html><head><meta charset='utf-8'></head><body>当前时间：";
             respon += DateTime.Now + "<br />成功！";
@@ -54,7 +54,7 @@ namespace Controllers
             return View(respon, true);
         }
 
-        public ActionResult HtmlPage()
+        public ViewResponse HtmlPage()
         {
             return View();
         }

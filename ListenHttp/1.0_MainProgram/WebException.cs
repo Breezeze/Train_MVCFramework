@@ -9,11 +9,11 @@ namespace ListenHttp
 {
     internal class WebException : Exception
     {
-        private WebExceptionResult executeResponse;
+        private WebExceptionResponse executeResponse;
 
         internal WebException(int statusCode, string errorString)
         {
-            executeResponse = new ListenHttp.WebExceptionResult(statusCode, errorString);
+            executeResponse = new ListenHttp.WebExceptionResponse(statusCode, errorString);
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace ListenHttp
         {
             if (ex is WebException)
             {
-                ((WebException)ex).executeResponse.ExecuteResponse(response);
+                ((WebException)ex).executeResponse.ManageResponse(response);
             }
             else
             {

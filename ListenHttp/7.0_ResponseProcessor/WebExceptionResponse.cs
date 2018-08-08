@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace ListenHttp
 {
-    internal class WebExceptionResult : IExecuteResponse
+    internal class WebExceptionResponse : IManageResponse
     {
         private ListenHttpResponse _response = new ListenHttpResponse();
 
-        internal WebExceptionResult(int statusCode, string errorString)
+        internal WebExceptionResponse(int statusCode, string errorString)
         {
             _response.StatusCode = statusCode;
             _response.ResponseString = errorString;
         }
 
-        public void ExecuteResponse(HttpListenerResponse response)
+        public void ManageResponse(HttpListenerResponse response)
         {
             string html = "<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"></head><body>" + "请求失败！\n" + _response.ResponseString + "</body></html>";
             response.StatusCode = _response.StatusCode;

@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace ListenHttp
 {
-    public class DataSourceProcess
+    /// <summary>
+    /// 处理请求
+    /// </summary>
+    interface IManageRequest
     {
-
+        IManageResponse ManageRequest(ListenHttpRequest request);
     }
 }

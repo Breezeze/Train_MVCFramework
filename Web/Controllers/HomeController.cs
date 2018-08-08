@@ -15,7 +15,7 @@ namespace Controllers
 
         }
 
-    public ActionResult index()
+    public ViewResponse index()
         {
             for (int i = 0; i < ctrlAction.Count; i++)
             {
@@ -26,7 +26,7 @@ namespace Controllers
             }
             return View();
         }
-        public ActionResult HelloWorld()
+        public ViewResponse HelloWorld()
         {
             ViewData.Add("HelloWorld", "HelloWorld!!!");
 

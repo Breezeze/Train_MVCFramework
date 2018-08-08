@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace ListenHttp
 {
-    internal class FileResult : IExecuteResponse
+    internal class FileResponse : IManageResponse
     {
         private string _filePath;
 
-        internal FileResult(string filePath)
+        internal FileResponse(string filePath)
         {
             _filePath = filePath;
         }
 
-        public void ExecuteResponse(HttpListenerResponse response)
+        public void ManageResponse(HttpListenerResponse response)
         {
-            string filepath =  @"..\..\..\Web"+ _filePath.Replace('/', '\\');
+            string filepath = @"..\..\..\Web" + _filePath.Replace('/', '\\');
             if (File.Exists(filepath))
             {
                 StreamReader sr = new StreamReader(filepath, Encoding.UTF8);

@@ -35,8 +35,8 @@ namespace ListenHttp
         internal UrlResult(Route route, string controller, string action, string id)
         {
             _route = route;
-            _parameters.Add("Controller", controller);
-            _parameters.Add("Action", action);
+            _parameters.Add("Controller", controller.Split('?')[0]);
+            _parameters.Add("Action", action.Split('?')[0]);
             _parameters.Add("id", id.Split('?')[0]);
         }
         internal UrlResult(Route route, string[] parametersName, string[] parameters)

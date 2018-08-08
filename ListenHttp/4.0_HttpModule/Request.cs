@@ -22,9 +22,9 @@ namespace ListenHttp
         public NameValueCollection Headers { get; }
         public Dictionary<string, string> Form { get; }
 
-        public ListenHttpRequest(UrlResult urlResult, HttpListenerRequest request)
+        public ListenHttpRequest(HttpListenerRequest request)
         {
-            UrlResult = urlResult;
+            UrlResult = Route.AnalysisUrl(request.Url.PathAndQuery);
             HttpMethod = request.HttpMethod;
             Url = request.Url;
             InputStream = request.InputStream;
@@ -33,9 +33,6 @@ namespace ListenHttp
             Headers = request.Headers;
             Form = new Dictionary<string, string>();
             ExtractParameters(request.QueryString);
-            Console.WriteLine("QueryString.Count=" + request.QueryString.Count);
-            Console.WriteLine("Headers.Count=" + Headers.Count);
-            Console.WriteLine("Parameters.Count=" + Form.Count);
         }
 
         /// <summary>

@@ -11,6 +11,29 @@ namespace ListenHttp
 {
     internal static class RequestProcess
     {
+
+        /// <summary>
+        /// 根据解析后的url进行不同的请求处理
+        /// </summary>
+        internal static IManageRequest ExecuteProcess(UrlResult urlResult)
+        {
+            if (urlResult["filepath"] != null)
+            {
+                return new FileRequest();
+            }
+            else if (urlResult.Controller != null)
+            {
+                return new ViewRequest();
+            }
+            else
+            {
+                throw new WebException(400, "请检测路径的正确性！");
+            }
+        }
+
+
+
+
         /// <summary>
         /// 所有控制器的集合
         /// </summary>
@@ -37,7 +60,7 @@ namespace ListenHttp
                     _subClassList.Add(name, ctrlTypeList[i]);
 
                     //记录控制器与控制器中的方法
-                    List<MethodInfo> ctrlAction = (from s in ctrlTypeList[i].GetMethods().ToList() where s.ReturnType.Equals(typeof(ActionResult)) select s).ToList();
+                    List<MethodInfo> ctrlAction = (from s in ctrlTypeList[i].GetMethods().ToList() where s.ReturnType.Equals(typeof(ViewResponse)) select s).ToList();
                     string[] array = new string[ctrlAction.Count + 1];
                     array[0] = name;
                     for (int j = 1; j < array.Length; j++)
@@ -54,47 +77,22 @@ namespace ListenHttp
                 Environment.Exit(0);
             }
         }
-
-        /// <summary>
-        /// 根据解析后的url处理请求
-        /// </summary>
-        internal static IExecuteResponse ExecuteProcess(HttpListenerContext context)
-        {
-            //通过路由解析url
-            UrlResult ur = Route.AnalysisUrl(context.Request.Url.PathAndQuery);
-            if (ur["filepath"] != null)
-            {
-                return new FileResult(ur["filepath"]);
-            }
-            else if (ur.Controller != null)
-            {
-                //客户端访问记录
-                Console.WriteLine("\n客户端发出" + context.Request.HttpMethod + "请求：" + context.Request.Url);
-
-                return FindAction(context, ur);
-            }
-            else
-            {
-                throw new WebException(400, "请检测路径的正确性！");
-            }
-        }
-
         /// <summary>
         /// 根据路由找到Controller中对应Action
         /// </summary>
-        private static IExecuteResponse FindAction(HttpListenerContext context, UrlResult urlResult)
+        private static IManageResponse FindAction(ListenHttpRequest request)
         {
-            if (_subClassList.ContainsKey(urlResult.Controller))
+            if (_subClassList.ContainsKey(request.UrlResult.Controller))
             {
-                List<MethodInfo> actions = _subClassList[urlResult.Controller].GetMethods().ToList();
-                object[] construcotParameters = new object[] { new ListenHttpRequest(urlResult, context.Request) };
-                object controllerInstance = Activator.CreateInstance(_subClassList[urlResult.Controller], construcotParameters);
+                List<MethodInfo> actions = _subClassList[request.UrlResult.Controller].GetMethods().ToList();
+                object[] construcotParameters = new object[] { request };
+                object controllerInstance = Activator.CreateInstance(_subClassList[request.UrlResult.Controller], construcotParameters);
                 foreach (MethodInfo item in actions)
                 {
-                    if (item.Name.ToLower().Equals(urlResult.Action))
+                    if (item.Name.ToLower().Equals(request.UrlResult.Action))
                     {
                         object[] actionParameters = new object[] { };
-                        return (IExecuteResponse)item.Invoke(controllerInstance, actionParameters);
+                        return (IManageResponse)item.Invoke(controllerInstance, actionParameters);
                     }
                 }
             }
