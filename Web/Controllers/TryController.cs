@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Controllers
 {
-    public class TryController : ListenHttp.Controller
+    public class TryController : Controller
     {
-        public TryController(HttpListenerContext _context, UrlResult ur) : base(_context, ur)
+        public TryController(ListenHttpRequest request) : base(request)
         {
         }
 
@@ -18,29 +18,29 @@ namespace Controllers
         {
             string respon = "<html><head><meta charset='utf-8'></head><body>当前时间：";
             respon += DateTime.Now + "<br />";
-            for (int i = 0; i < context.Request.QueryString.Count; i++)
+            if (Request.Form.Count != 0)
             {
-                if (i == 0)
-                {
-                    respon += "参数有：<br />";
-                }
-                respon += context.Request.QueryString[i] + "<br />";
+                respon += "参数有：<br />";
+            }
+            foreach (var item in Request.Form.Keys)
+            {
+                respon += Request.Form[item] + "<br />";
             }
             respon += "</body></html>";
             return View(respon, true);
         }
+
         public ActionResult index()
         {
             string respon = "<html><head><meta charset='utf-8'></head><body>当前时间：";
             respon += DateTime.Now + "<br />";
-            for (int i = 0; i < context.Request.QueryString.Count; i++)
+            if (Request.Form.Count != 0)
             {
-                if (i == 0)
-                {
-                    respon += "参数有：<br />";
-                }
-                respon += context.Request.QueryString.Keys[i] + "： ";
-                respon += context.Request.QueryString[i] + "<br />";
+                respon += "参数有：<br />";
+            }
+            foreach (var item in Request.Form.Keys)
+            {
+                respon += Request.Form[item] + "<br />";
             }
             respon += "</body></html>";
             return View(respon, true);
@@ -53,6 +53,7 @@ namespace Controllers
             respon += "</body></html>";
             return View(respon, true);
         }
+
         public ActionResult HtmlPage()
         {
             return View();

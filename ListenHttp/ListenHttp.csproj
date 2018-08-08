@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Web\Train_MVCFramework\bin\Debug\</OutputPath>
+    <OutputPath>..\Train_MVCFramework\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -41,20 +41,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControllerProcess\Controller.cs" />
-    <Compile Include="ControllerProcess\ViewDataBase.cs" />
-    <Compile Include="ModelProcess\DataSourceProcess.cs" />
-    <Compile Include="RequestProcess\RequestProcess.cs" />
-    <Compile Include="ControllerProcess\ControllerBase.cs" />
-    <Compile Include="ResponseProcess\ISendResponse.cs" />
-    <Compile Include="Listener.cs" />
+    <Compile Include="4.0_ControllerProcess\Controller.cs" />
+    <Compile Include="4.0_ControllerProcess\ViewDataBase.cs" />
+    <Compile Include="3.0_HttpModule\Request.cs" />
+    <Compile Include="3.0_HttpModule\Response.cs" />
+    <Compile Include="5.0_ModelProcess\DataSourceProcess.cs" />
+    <Compile Include="2.0_RequestProcess\RequestProcess.cs" />
+    <Compile Include="4.0_ControllerProcess\ControllerBase.cs" />
+    <Compile Include="6.0_ResponseProcess\ISendResponse.cs" />
+    <Compile Include="1.0_MainProgram\Listener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResponseProcess\ActionResult.cs" />
-    <Compile Include="ResponseProcess\FileRusult.cs" />
-    <Compile Include="RequestProcess\UrlProcess\Route.cs" />
-    <Compile Include="RequestProcess\UrlProcess\UrlResult.cs" />
-    <Compile Include="ResponseProcess\WebException.cs" />
+    <Compile Include="6.0_ResponseProcess\ActionResult.cs" />
+    <Compile Include="6.0_ResponseProcess\FileRusult.cs" />
+    <Compile Include="2.0_RequestProcess\UrlProcess\Route.cs" />
+    <Compile Include="2.0_RequestProcess\UrlProcess\UrlResult.cs" />
+    <Compile Include="1.0_MainProgram\WebException.cs" />
+    <Compile Include="6.0_ResponseProcess\WebExceptionResult.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

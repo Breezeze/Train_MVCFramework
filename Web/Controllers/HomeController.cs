@@ -8,13 +8,14 @@ using System.Net;
 
 namespace Controllers
 {
-    public class HomeController : ListenHttp.Controller
+    public class HomeController : Controller
     {
-        public HomeController(HttpListenerContext _context, UrlResult ur) : base(_context, ur)
+        public HomeController(ListenHttpRequest request) : base(request)
         {
+
         }
 
-        public ActionResult index()
+    public ActionResult index()
         {
             for (int i = 0; i < ctrlAction.Count; i++)
             {

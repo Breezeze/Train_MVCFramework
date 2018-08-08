@@ -31,7 +31,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Web", "Web\", "{278AF18D-91
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controllers", "Web\Controllers\Controllers.csproj", "{0BF06070-3F0A-460F-B509-6D41BB30799B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Train_MVCFramework", "Web\Train_MVCFramework\Train_MVCFramework.csproj", "{22B40EE5-6A06-4996-A778-61F486B13772}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Train_MVCFramework", "Train_MVCFramework\Train_MVCFramework.csproj", "{22B40EE5-6A06-4996-A778-61F486B13772}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

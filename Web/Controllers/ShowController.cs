@@ -10,17 +10,18 @@ namespace Controllers
 {
     public class ShowController : Controller
     {
-        public ShowController(HttpListenerContext _context, UrlResult ur) : base(_context, ur)
+        public ShowController(ListenHttpRequest request) : base(request)
         {
         }
+
         public ActionResult index()
         {
             string respon = "";
-            if (requestForm.Count != 0)
-                respon += context.Request.HttpMethod + "请求参数：\n";
-            foreach (var item in requestForm.Keys)
+            if (Request.Form.Count != 0)
+                respon += Request.HttpMethod + "请求参数：\n";
+            foreach (var item in Request.Form.Keys)
             {
-                respon += item + "：" + requestForm[item] + "\n";
+                respon += Request.Form[item] + "<br />";
             }
             ViewData["感叹号"] = "!!!!!!!!!!!!!!!!!!!!!!!!!!!";
             ViewData.Add("wef_123", ";ljwlefjlkwejflksdafl");
@@ -30,13 +31,13 @@ namespace Controllers
         public ActionResult IsGetOrPost()
         {
             string respon = "";
-            if (requestForm.Count != 0)
-                respon += context.Request.HttpMethod + "请求参数：\n";
-            foreach (var item in requestForm.Keys)
+            if (Request.Form.Count != 0)
+                respon += Request.HttpMethod + "QueryString：\n";
+            foreach (var item in Request.Form.Keys)
             {
-                respon += item + "：" + requestForm[item] + "\n";
+                respon += Request.Form[item] + "<br />";
             }
-            respon += "This is a " + context.Request.HttpMethod + " Request.\n";
+            respon += "This is a " + Request.HttpMethod + " Request.\n";
             return View(respon, true);
         }
 
