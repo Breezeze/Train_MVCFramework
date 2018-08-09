@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ListenHttp
 {
-    internal class FileResponse : IManageResponse
+    internal class FileResponse : IManageResponseMessage
     {
         private string _filePath;
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ListenHttp
 {
-    internal class WebExceptionResponse : IManageResponse
+    internal class WebExceptionResponse : IManageResponseMessage
     {
         private ListenHttpResponse _response = new ListenHttpResponse();
 

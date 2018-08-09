@@ -21,7 +21,7 @@ namespace ListenHttp
         {
             if (ctrlAction == null)
             {
-                ctrlAction = RequestProcess.ctrlActions;
+                ctrlAction = ViewRequest.ctrlActions;
             }
 
         }

@@ -41,23 +41,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="3.0_RequestProcessor\FileRequest.cs" />
-    <Compile Include="3.0_RequestProcessor\ViewRequest.cs" />
-    <Compile Include="3.0_RequestProcessor\IManageRequest.cs" />
+    <Compile Include="4.0_RequestProcessor\FileRequest.cs" />
+    <Compile Include="4.0_RequestProcessor\ViewRequest.cs" />
+    <Compile Include="4.0_RequestProcessor\IManageMessageRequest.cs" />
     <Compile Include="5.0_ControllerBase\Controller.cs" />
     <Compile Include="5.0_ControllerBase\ViewDataBase.cs" />
-    <Compile Include="4.0_HttpModule\Request.cs" />
-    <Compile Include="4.0_HttpModule\Response.cs" />
+    <Compile Include="2.0_HttpMessageModule\Request.cs" />
+    <Compile Include="2.0_HttpMessageModule\Response.cs" />
     <Compile Include="6.0_ModelAutoGeneration\DataSourceProcess.cs" />
-    <Compile Include="3.0_RequestProcessor\RequestProcessor.cs" />
+    <Compile Include="4.0_RequestProcessor\RequestProcessor.cs" />
     <Compile Include="5.0_ControllerBase\ControllerBase.cs" />
-    <Compile Include="7.0_ResponseProcessor\IManageResponse.cs" />
+    <Compile Include="7.0_ResponseProcessor\IManageMessageResponse.cs" />
     <Compile Include="1.0_MainProgram\Listener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="7.0_ResponseProcessor\ViewResponset.cs" />
     <Compile Include="7.0_ResponseProcessor\FileResponse.cs" />
-    <Compile Include="2.0_RouteModule\Route.cs" />
-    <Compile Include="2.0_RouteModule\UrlResult.cs" />
+    <Compile Include="3.0_RouteModule\Route.cs" />
+    <Compile Include="3.0_RouteModule\UrlResult.cs" />
     <Compile Include="1.0_MainProgram\WebException.cs" />
     <Compile Include="7.0_ResponseProcessor\WebExceptionResponse.cs" />
   </ItemGroup>

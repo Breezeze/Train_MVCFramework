@@ -48,13 +48,16 @@ namespace ListenHttp
         /// </summary>
         private void GetContextCallBack(IAsyncResult ar)
         {
-            //System.Diagnostics.Stopwatch executeTime = new System.Diagnostics.Stopwatch();
-            //executeTime.Start();
-            //executeTime.Stop();
-            //Console.WriteLine(executeTime.Elapsed.TotalSeconds * 1000);
+            System.Diagnostics.Stopwatch executeTime = new System.Diagnostics.Stopwatch();
+            executeTime.Start();
+
             _httpListener = ar.AsyncState as HttpListener;
             HttpListenerContext context = _httpListener.EndGetContext(ar);
             TreatmentScheme(context);
+
+            executeTime.Stop();
+            Console.WriteLine("该请求处理时间：" + executeTime.Elapsed.TotalSeconds * 1000 + "毫秒。");
+
             _httpListener.BeginGetContext(new AsyncCallback(GetContextCallBack), _httpListener);
         }
 
@@ -65,14 +68,17 @@ namespace ListenHttp
         {
             try
             {
+                //客户端访问记录
+                Console.WriteLine("\n客户端发出" + context.Request.HttpMethod + "请求：" + context.Request.Url);
+
                 //封装HttpListenerRequest
                 ListenHttpRequest request = new ListenHttpRequest(context.Request);
 
                 //解析URL，获取对应的请求处理类
-                IManageRequest manageRequest = RequestProcess.ExecuteProcess(request.UrlResult);
+                IManageMessageRequest manageRequest = RequestProcess.ExecuteProcess(request.UrlResult);
 
                 //根据不同请求处理类，获取不同的响应报文处理类
-                IManageResponse manageResponse = manageRequest.ManageRequest(request);
+                IManageResponseMessage manageResponse = manageRequest.ManageRequest(request);
 
                 //处理并发送响应报文
                 manageResponse.ManageResponse(context.Response);

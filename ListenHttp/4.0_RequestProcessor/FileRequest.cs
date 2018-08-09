@@ -9,10 +9,10 @@ namespace ListenHttp
     /// <summary>
     /// 文件请求
     /// </summary>
-    internal class FileRequest : IManageRequest
+    internal class FileRequest : IManageMessageRequest
     {
         internal FileRequest() { }
-        public IManageResponse ManageRequest(ListenHttpRequest request)
+        public IManageResponseMessage ManageRequest(ListenHttpRequest request)
         {
             return new FileResponse(request.UrlResult["filepath"]);
         }

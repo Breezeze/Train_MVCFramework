@@ -11,7 +11,7 @@ namespace ListenHttp
     /// <summary>
     /// 视图请求
     /// </summary>
-    internal class ViewRequest : IManageRequest
+    internal class ViewRequest : IManageMessageRequest
     {
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace ListenHttp
                         _subClassList.Add(name, ctrlTypeList[i]);
 
                         //记录控制器与控制器中的方法
-                        List<MethodInfo> ctrlAction = (from s in ctrlTypeList[i].GetMethods().ToList() where s.ReturnType.Equals(typeof(ViewResponse)) select s).ToList();
+                        List<MethodInfo> ctrlAction = ctrlTypeList[i].GetMethods().ToList().Where(s => s.ReturnType.Equals(typeof(ViewResponse))).ToList();
                         string[] array = new string[ctrlAction.Count + 1];
                         array[0] = name;
                         for (int j = 1; j < array.Length; j++)
@@ -70,11 +70,8 @@ namespace ListenHttp
             }
         }
 
-        public IManageResponse ManageRequest(ListenHttpRequest request)
+        public IManageResponseMessage ManageRequest(ListenHttpRequest request)
         {
-            //客户端访问记录
-            Console.WriteLine("\n客户端发出" + request.HttpMethod + "请求：" + request.Url);
-
             if (_subClassList.ContainsKey(request.UrlResult.Controller))
             {
                 List<MethodInfo> actions = _subClassList[request.UrlResult.Controller].GetMethods().ToList();
@@ -85,7 +82,7 @@ namespace ListenHttp
                     if (item.Name.ToLower().Equals(request.UrlResult.Action))
                     {
                         object[] actionParameters = new object[] { };
-                        return (IManageResponse)item.Invoke(controllerInstance, actionParameters);
+                        return (IManageResponseMessage)item.Invoke(controllerInstance, actionParameters);
                     }
                 }
             }

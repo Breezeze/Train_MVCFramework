@@ -9,8 +9,8 @@ namespace ListenHttp
     /// <summary>
     /// 处理请求
     /// </summary>
-    interface IManageRequest
+    interface IManageMessageRequest
     {
-        IManageResponse ManageRequest(ListenHttpRequest request);
+        IManageResponseMessage ManageRequest(ListenHttpRequest request);
     }
 }

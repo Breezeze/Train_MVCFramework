@@ -6,3 +6,4 @@ C:\Users\Administrator\Desktop\Train_MVCFramework\Train_MVCFramework\bin\Debug\L
 C:\Users\Administrator\Desktop\Train_MVCFramework\Train_MVCFramework\bin\Debug\ListenHttp.pdb
 C:\Users\Administrator\Desktop\Train_MVCFramework\Web\Train_MVCFramework\bin\Debug\ListenHttp.dll
 C:\Users\Administrator\Desktop\Train_MVCFramework\Web\Train_MVCFramework\bin\Debug\ListenHttp.pdb
+C:\Users\Administrator\Desktop\Train_MVCFramework\ListenHttp\obj\Debug\ListenHttp.csprojResolveAssemblyReference.cache

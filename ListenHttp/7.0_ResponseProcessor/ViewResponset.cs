@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ListenHttp
 {
-    public class ViewResponse : IManageResponse
+    public class ViewResponse : IManageResponseMessage
     {
         private ListenHttpResponse _response;
 
